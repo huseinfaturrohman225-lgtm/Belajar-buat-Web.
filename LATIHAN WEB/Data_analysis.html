@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Website interaktif untuk belajar Data Analysis dan visualisasi data.">
+    <title>DATA — Data Analysis Studio</title>
+    <link rel="stylesheet" href="data.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
+    <header class="header">
+        <nav class="nav container">
+            <a class="brand" href="#home" aria-label=" beranda">
+                <span class="brand-icon">D<span>.</span></span>
+                <span>DATA<small>DATA STUDIO</small></span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">☰</button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a class="active" href="#home">Beranda</a></li>
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#workflow">Proses</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#benefits">Manfaat</a></li>
+            </ul>
+            <a class="nav-cta" href="#dashboard">Jelajahi Data <span>↗</span></a>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero" id="home">
+            <div class="container hero-layout">
+                <div class="hero-text reveal">
+                    <div class="eyebrow"><span class="eyebrow-dot"></span> DATA • INSIGHT • DECISION</div>
+                    <h1>Angka punya cerita.<br><span>Temukan maknanya.</span></h1>
+                    <p class="hero-desc">Ubah kumpulan data menjadi insight yang jelas, visual, dan membantu kita mengambil keputusan dengan lebih baik.</p>
+                    <div class="hero-buttons">
+                        <a class="btn btn-primary" href="#dashboard">Lihat Dashboard <span>↗</span></a>
+                        <a class="btn btn-ghost" href="#about"><span class="play-icon">▶</span> Kenali Data Analysis</a>
+                    </div>
+                    <div class="hero-proof">
+                        <div class="proof-avatars"><span>A</span><span>D</span><span>+</span></div>
+                        <div><strong>Data menjadi lebih mudah dipahami</strong><small>Contoh proyek pembelajaran interaktif</small></div>
+                    </div>
+                </div>
+                <div class="hero-visual reveal">
+                    <div class="visual-topline"><span><i></i> LIVE DATA OVERVIEW</span><span class="live-pill">DEMO MODE</span></div>
+                    <div class="visual-total">
+                        <div><p>Total pendapatan</p><h2 id="heroRevenue">Rp 7.500.000</h2></div>
+                        <span class="trend-chip">↗ <b>+18,6%</b></span>
+                    </div>
+                    <div class="hero-graph">
+                        <div class="graph-guides"><span>2,0 jt</span><span>1,5 jt</span><span>1,0 jt</span><span>0,5 jt</span></div>
+                        <div class="hero-graph-area">
+                            <svg viewBox="0 0 500 190" preserveAspectRatio="none" role="img" aria-label="Ilustrasi tren pendapatan yang meningkat">
+                                <defs>
+                                    <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
+                                        <stop offset="0%" stop-color="#9ef5dc" stop-opacity=".35"/>
+                                        <stop offset="100%" stop-color="#9ef5dc" stop-opacity="0"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M0,153 C35,140 42,120 80,132 S130,96 165,111 S210,80 248,93 S305,44 335,65 S390,48 420,35 S468,26 500,8 L500,190 L0,190 Z" fill="url(#areaFill)"/>
+                                <path d="M0,153 C35,140 42,120 80,132 S130,96 165,111 S210,80 248,93 S305,44 335,65 S390,48 420,35 S468,26 500,8" fill="none" stroke="#9ef5dc" stroke-width="3" vector-effect="non-scaling-stroke"/>
+                                <circle cx="420" cy="35" r="5" fill="#071a2b" stroke="#9ef5dc" stroke-width="3" vector-effect="non-scaling-stroke"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="graph-months"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>Mei</span><span>Jun</span></div>
+                    <div class="visual-bottom">
+                        <div><span class="bottom-symbol">↗</span><p><strong>Tren positif</strong><small>Penjualan meningkat dari waktu ke waktu</small></p></div>
+                        <div class="tiny-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
+                    <div class="floating-tag tag-top">✦ Smart insight</div>
+                    <div class="floating-tag tag-bottom"><span>▥</span> Data visualization</div>
+                </div>
+            </div>
+            <div class="hero-scroll"><span></span> SCROLL UNTUK MENJELAJAHI</div>
+        </section>
+
+        <section class="stats-wrap">
+            <div class="container stats-grid">
+                <article class="stat-card"><div class="stat-head"><span class="stat-icon violet">▦</span><span class="stat-kicker">REKAMAN DATA</span></div><h3 id="totalRecords">6 <small>bulan</small></h3><p>Periode yang dianalisis</p><div class="stat-line violet-line"><span style="width:72%"></span></div></article>
+                <article class="stat-card"><div class="stat-head"><span class="stat-icon mint">↗</span><span class="stat-kicker">UNIT TERJUAL</span></div><h3 id="totalUnits">450 <small>unit</small></h3><p>Total seluruh produk</p><div class="stat-line mint-line"><span style="width:84%"></span></div></article>
+                <article class="stat-card"><div class="stat-head"><span class="stat-icon amber">◎</span><span class="stat-kicker">RATA-RATA OMZET</span></div><h3 id="averageRevenue">Rp 1,25 jt</h3><p>Rata-rata per bulan</p><div class="stat-line amber-line"><span style="width:63%"></span></div></article>
+                <article class="stat-card"><div class="stat-head"><span class="stat-icon pink">★</span><span class="stat-kicker">BULAN TERBAIK</span></div><h3 id="bestMonth">Juni</h3><p>Omzet paling tinggi</p><div class="stat-line pink-line"><span style="width:91%"></span></div></article>
+            </div>
+        </section>
+
+        <section class="section about-section" id="about">
+            <div class="container about-layout">
+                <div class="section-intro reveal">
+                    <span class="section-label">01 — KENALI LEBIH DEKAT</span>
+                    <h2>Apa itu <span>Data Analysis?</span></h2>
+                </div>
+                <div class="about-copy reveal">
+                    <p class="large-copy">Data Analysis adalah proses mengolah dan memeriksa data untuk menemukan informasi, pola, dan kesimpulan yang berguna.</p>
+                    <p>Data yang awalnya hanya berupa angka atau catatan dapat menjadi informasi yang lebih bermakna setelah dikumpulkan, dibersihkan, dianalisis, lalu disajikan secara tepat.</p>
+                    <div class="quote-box"><span>✳</span><p><strong>Tujuan utamanya:</strong> membantu kita memahami apa yang terjadi dan menentukan langkah selanjutnya berdasarkan data.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section workflow-section" id="workflow">
+            <div class="container">
+                <div class="center-heading reveal"><span class="section-label">02 — ALUR KERJA</span><h2>Dari data mentah menjadi <span>insight.</span></h2><p>Empat tahapan dasar untuk mendapatkan informasi yang lebih berguna.</p></div>
+                <div class="workflow-grid">
+                    <article class="workflow-card reveal"><div class="workflow-top"><span class="workflow-icon icon-lilac">01</span><span class="workflow-arrow">↗</span></div><h3>Kumpulkan</h3><p>Ambil data dari survei, transaksi, formulir, atau sumber lain yang relevan.</p><div class="workflow-tag">DATA COLLECTION</div></article>
+                    <article class="workflow-card reveal"><div class="workflow-top"><span class="workflow-icon icon-mint">02</span><span class="workflow-arrow">↗</span></div><h3>Bersihkan</h3><p>Periksa data kosong, duplikat, dan kesalahan agar hasil lebih konsisten.</p><div class="workflow-tag">DATA CLEANING</div></article>
+                    <article class="workflow-card reveal"><div class="workflow-top"><span class="workflow-icon icon-amber">03</span><span class="workflow-arrow">↗</span></div><h3>Analisis</h3><p>Hitung nilai, bandingkan kategori, dan cari pola atau perubahan.</p><div class="workflow-tag">DATA ANALYSIS</div></article>
+                    <article class="workflow-card reveal"><div class="workflow-top"><span class="workflow-icon icon-blue">04</span><span class="workflow-arrow">↗</span></div><h3>Visualisasikan</h3><p>Sajikan hasil dalam grafik, tabel, dan kesimpulan yang mudah dibaca.</p><div class="workflow-tag">DATA VISUALIZATION</div></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section dashboard-section" id="dashboard">
+            <div class="container">
+                <div class="dashboard-heading reveal">
+                    <div><span class="section-label">03 — INTERACTIVE DASHBOARD</span><h2>Jelajahi datanya.</h2><p>Contoh analisis penjualan selama enam bulan. Pilih tampilan grafik untuk membandingkan data.</p></div>
+                    <div class="dashboard-control"><span class="control-label">TAMPILKAN</span><div class="segmented"><button class="chart-switch active" data-chart="revenue">Omzet</button><button class="chart-switch" data-chart="units">Unit</button></div></div>
+                </div>
+                <div class="dashboard-grid">
+                    <article class="panel main-panel">
+                        <div class="panel-heading"><div><h3 id="mainChartTitle">Perkembangan omzet</h3><p id="mainChartSubtitle">Total pendapatan per bulan</p></div><span class="panel-menu">•••</span></div>
+                        <div class="main-chart-wrap"><canvas id="mainChart" aria-label="Grafik interaktif data penjualan"></canvas></div>
+                        <div class="chart-summary"><span><i class="legend-dot"></i><span id="chartLegend">Omzet bulanan</span></span><span>SUMBER: DATA CONTOH</span></div>
+                    </article>
+                    <article class="panel insight-panel">
+                        <div class="panel-heading"><div><h3>Insight singkat</h3><p>Temuan dari data contoh</p></div><span class="insight-star">✦</span></div>
+                        <div class="insight-number"><span>01</span><div><small>OMZET TERTINGGI</small><h4 id="insightMonth">Juni</h4><p id="insightRevenue">Rp 1.760.000</p></div></div>
+                        <div class="insight-divider"></div>
+                        <div class="insight-number"><span>02</span><div><small>TOTAL UNIT TERJUAL</small><h4 id="insightUnits">450 unit</h4><p>Selama periode pengamatan</p></div></div>
+                        <div class="insight-callout"><span>✦</span><p>Grafik memudahkan kita melihat perubahan data tanpa membaca semua angka satu per satu.</p></div>
+                    </article>
+                </div>
+                <article class="panel data-panel">
+                    <div class="panel-heading data-heading"><div><h3>Rincian data</h3><p>Gunakan pencarian untuk menemukan bulan tertentu.</p></div><label class="search-input"><span>⌕</span><input type="search" id="searchData" placeholder="Cari bulan..." aria-label="Cari bulan pada tabel"></label></div>
+                    <div class="table-overflow"><table><thead><tr><th>BULAN</th><th>UNIT TERJUAL</th><th>OMZET</th><th>KATEGORI</th></tr></thead><tbody id="dataTable"></tbody></table></div>
+                    <div class="table-end"><span id="tableCount">Menampilkan 6 baris</span><span>DATA ILUSTRASI UNTUK PEMBELAJARAN</span></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section benefits-section" id="benefits">
+            <div class="container benefits-layout">
+                <div class="benefit-heading reveal"><span class="section-label">04 — KENAPA PENTING?</span><h2>Data yang tepat.<br><span>Keputusan lebih kuat.</span></h2><p>Analisis data digunakan dalam banyak bidang, dari pendidikan hingga bisnis, untuk memahami situasi dengan lebih terarah.</p><div class="benefit-decoration">D<span>.</span></div></div>
+                <div class="benefit-list">
+                    <article class="benefit-item reveal"><span class="benefit-index">01</span><div><h3>Membantu mengambil keputusan</h3><p>Gunakan informasi yang terukur sebagai dasar untuk memilih langkah berikutnya.</p></div><span class="benefit-arrow">↗</span></article>
+                    <article class="benefit-item reveal"><span class="benefit-index">02</span><div><h3>Menemukan pola dan tren</h3><p>Kenali perubahan, kecenderungan, dan perbedaan yang sulit terlihat dari data mentah.</p></div><span class="benefit-arrow">↗</span></article>
+                    <article class="benefit-item reveal"><span class="benefit-index">03</span><div><h3>Mengevaluasi hasil</h3><p>Bandingkan hasil dengan target untuk mengetahui hal yang perlu dipertahankan atau diperbaiki.</p></div><span class="benefit-arrow">↗</span></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="closing-section">
+            <div class="container closing-card reveal"><div class="closing-orb orb-one"></div><div class="closing-orb orb-two"></div><span class="section-label">YOUR DATA, YOUR INSIGHT</span><h2>Mulai dari angka sederhana.<br><span>Temukan cerita di baliknya.</span></h2><p>HTML membangun struktur, CSS menghidupkan desain, dan JavaScript membuat data menjadi interaktif.</p><a class="btn btn-light" href="#home">Kembali ke atas ↑</a></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-main"><a class="brand footer-brand" href="#home"><span class="brand-icon">D<span>.</span></span><span><small>DATA STUDIO</small></span></a><p>Eksplorasi data, temukan informasi.</p><div class="footer-links"><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development" target="_blank" rel="noopener noreferrer">Belajar Web</a><a href="https://www.chartjs.org/docs/latest/" target="_blank" rel="noopener noreferrer">Chart.js Docs</a></div></div>
+        <div class="container footer-bottom"><span>© 2026 DATA. Website pembelajaran.</span><span>Dibuat dengan HTML · CSS · JavaScript</span></div>
+    </footer>
+    <script src="scriptjs"></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tata Surya 3D Realistis</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; font-family: sans-serif; }
+    </style>
+</head>
+<body>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        let scene, camera, renderer, controls;
+        let sun, planets = [], stars;
+
+        // Generator Tekstur Prosedural (Membuat gambar detil langsung via kodingan tanpa internet)
+        function generateProceduralTexture(type) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+
+            if (type === 'sun') {
+                const grad = ctx.createLinearGradient(0, 0, 0, 256);
+                grad.addColorStop(0, '#ffcc00');
+                grad.addColorStop(0.5, '#ff4500');
+                grad.addColorStop(1, '#ffaa00');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 512, 256);
+                for (let i = 0; i < 800; i++) {
+                    ctx.fillStyle = 'rgba(255, 255, 200, ' + Math.random() * 0.3 + ')';
+                    ctx.fillRect(Math.random() * 512, Math.random() * 256, Math.random() * 8, Math.random() * 8);
+                }
+            } else if (type === 'earth') {
+                ctx.fillStyle = '#1b4d89'; // Laut
+                ctx.fillRect(0, 0, 512, 256);
+                ctx.fillStyle = '#2d7d32'; // Benua
+                for (let i = 0; i < 40; i++) {
+                    ctx.beginPath();
+                    ctx.arc(Math.random() * 512, Math.random() * 256, Math.random() * 50 + 20, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; // Awan
+                for (let i = 0; i < 60; i++) {
+                    ctx.fillRect(Math.random() * 512, Math.random() * 256, Math.random() * 60 + 10, Math.random() * 15 + 5);
+                }
+            } else if (type === 'jupiter') {
+                for (let y = 0; y < 256; y++) {
+                    let color = (y % 30 < 15) ? '#b07f35' : '#d4a359';
+                    ctx.fillStyle = color;
+                    ctx.fillRect(0, y, 512, 1);
+                }
+                ctx.fillStyle = '#cc3300'; // Badai Merah Raksasa
+                ctx.beginPath();
+                ctx.ellipse(300, 160, 40, 20, 0, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (type === 'mars') {
+                ctx.fillStyle = '#c1440e';
+                ctx.fillRect(0, 0, 512, 256);
+                ctx.fillStyle = '#8a2be2';
+                for (let i = 0; i < 100; i++) {
+                    ctx.fillStyle = 'rgba(100, 30, 0, 0.3)';
+                    ctx.fillRect(Math.random() * 512, Math.random() * 256, Math.random() * 30, Math.random() * 30);
+                }
+            } else {
+                ctx.fillStyle = '#aaa';
+                ctx.fillRect(0, 0, 512, 256);
+            }
+
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        const planetData = [
+            { name: 'Merkurius', size: 1.0, distance: 16, color: 0xaaaaaa, speed: 0.015, type: 'default' },
+            { name: 'Venus', size: 1.5, distance: 24, color: 0xe3bb76, speed: 0.012, type: 'default' },
+            { name: 'Bumi', size: 1.8, distance: 34, color: 0xffffff, speed: 0.009, type: 'earth' },
+            { name: 'Mars', size: 1.2, distance: 44, color: 0xffffff, speed: 0.007, type: 'mars' },
+            { name: 'Jupiter', size: 4.2, distance: 60, color: 0xffffff, speed: 0.003, type: 'jupiter' },
+            { name: 'Saturnus', size: 3.2, distance: 78, color: 0xe2bf7d, speed: 0.002, hasRings: true, type: 'default' }
+        ];
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 40, 110);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.body.appendChild(renderer.domElement);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+
+            // --- PENCAHAYAAN GANDA (Biar Planet Tidak Gelap) ---
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // Terang menyeluruh
+            scene.add(ambientLight);
+
+            const sunLight = new THREE.PointLight(0xffffff, 2, 300); // Cahaya dari Matahari
+            scene.add(sunLight);
+
+            const cameraLight = new THREE.DirectionalLight(0xffffff, 0.6); // Cahaya searah kamera
+            camera.add(cameraLight);
+            scene.add(camera);
+
+            createSpaceBackground();
+
+            // Matahari
+            const sunGeo = new THREE.SphereGeometry(7, 32, 32);
+            const sunMat = new THREE.MeshBasicMaterial({ map: generateProceduralTexture('sun') });
+            sun = new THREE.Mesh(sunGeo, sunMat);
+            scene.add(sun);
+
+            // Planet
+            planetData.forEach(data => {
+                const planetObj = createPlanet(data);
+                planets.push(planetObj);
+                createOrbitLine(data.distance);
+            });
+
+            window.addEventListener('resize', onWindowResize);
+            animate();
+        }
+
+        function createPlanet(data) {
+            const orbitPivot = new THREE.Object3D();
+            scene.add(orbitPivot);
+
+            const geometry = new THREE.SphereGeometry(data.size, 32, 32);
+            const texture = data.type !== 'default' ? generateProceduralTexture(data.type) : null;
+            
+            const material = new THREE.MeshStandardMaterial({
+                color: texture ? 0xffffff : data.color,
+                map: texture,
+                roughness: 0.6
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.x = data.distance;
+            orbitPivot.add(mesh);
+
+            if (data.hasRings) {
+                const ringGeo = new THREE.RingGeometry(data.size + 1, data.size + 3.5, 64);
+                const ringMat = new THREE.MeshStandardMaterial({
+                    color: 0xc2a366,
+                    side: THREE.DoubleSide,
+                    transparent: true,
+                    opacity: 0.7
+                });
+                const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+                ringMesh.rotation.x = Math.PI / 2.2;
+                mesh.add(ringMesh);
+            }
+
+            return { orbitPivot, mesh, speed: data.speed };
+        }
+
+        function createOrbitLine(distance) {
+            const points = [];
+            for (let i = 0; i <= 128; i++) {
+                const theta = (i / 128) * Math.PI * 2;
+                points.push(new THREE.Vector3(Math.cos(theta) * distance, 0, Math.sin(theta) * distance));
+            }
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 });
+            const line = new THREE.Line(geometry, material);
+            scene.add(line);
+        }
+
+        function createSpaceBackground() {
+            const starGeometry = new THREE.BufferGeometry();
+            const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.15 });
+
+            const starVertices = [];
+            for (let i = 0; i < 12000; i++) {
+                starVertices.push(
+                    THREE.MathUtils.randFloatSpread(1200),
+                    THREE.MathUtils.randFloatSpread(1200),
+                    THREE.MathUtils.randFloatSpread(1200)
+                );
+            }
+
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            sun.rotation.y += 0.002;
+
+            planets.forEach(p => {
+                p.orbitPivot.rotation.y += p.speed;
+                p.mesh.rotation.y += 0.01;
+            });
+
+            if (stars) stars.rotation.y += 0.0001;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>

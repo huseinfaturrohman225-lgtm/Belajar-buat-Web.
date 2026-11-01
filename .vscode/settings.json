@@ -1,0 +1,15 @@
+{
+    "window.zoomLevel": 1,
+    "editor.fontSize": 12,
+    "workbench.colorTheme": "Ayu Dark",
+    "workbench.iconTheme": "vscode-icons",
+    "auto-close-tag.fullMode": true,
+    "auto-close-tag.SublimeText3Mode": true,
+    "auto-close-tag.insertSpaceBeforeSelfClosingTag": true,
+    "extensions.experimental.deferredStartupFinishedActivation": true,
+    "editor wordWrap": "on",
+    "git.ignoreLimitWarning": true,
+    "prettier.insertPragma": true,
+    
+
+}

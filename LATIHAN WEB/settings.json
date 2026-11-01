@@ -1,0 +1,53 @@
+{
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.iconTheme": "vscode-icons",
+    "terminal.integrated.enableMultiLinePasteWarning": "never",
+    "files.autoSave": "afterDelay",
+    "workbench.editor.enablePreview": false,
+    "editor.minimap.enabled": false,
+    "explorer.confirmDelete": false,
+    "workbench.layoutControl.enabled": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "mobile-preview.device": "iPhone 15",
+    "workbench.settings.applyToAllProfiles": [
+        "mobile-preview.url"
+    ],
+    "mobile-preview.url": "http://localhost:3000",
+    "auto-close-tag.fullMode": true,
+    "auto-close-tag.insertSpaceBeforeSelfClosingTag": true,
+    "auto-close-tag.SublimeText3Mode": true,
+    "vscode-pets.theme": "forest",
+    "explorer.confirmDragAndDrop": false,
+    "settingsSync.ignoredExtensions": [
+        "ms-vscode.live-server"
+    ],
+    "livePreview.notifyOnOpenLooseFile": false,
+    "workbench.colorTheme": "Ayu Dark Bordered",
+    "remote.portsAttributes": {
+        "5500": {
+            "protocol": "https"
+        }
+    },
+    "auto-close-tag.activationOnLanguage": [
+        
+        "xml",
+        "php",
+        "blade",
+        "ejs",
+        "jinja",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "plaintext",
+        "markdown",
+        "vue",
+        "liquid",
+        "erb",
+        "lang-cfml",
+        "cfml",
+        "HTML (EEx)",
+        "HTML (Eex)",
+        "plist"
+    ]
+}

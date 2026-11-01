@@ -1,0 +1,164 @@
+body {
+    background-color: #F7F4EB;
+    color: #3E2F2B;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;}
+h1, h2, h3 {
+    font-family: 'Times New Roman', Times, serif;
+    margin-top: 0;}
+h2 {
+    font-size: 40px;
+    margin-bottom: 10px;}
+h1 span, em {
+    color: #C9735D; }
+p {
+    color: #6B5A53;}
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #E8E0D5;
+}
+.cart-info {
+    border: 1px solid #3E2F2B;
+    padding: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F4E3E3;
+}
+/* Tata letak (ke tengah) */
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px 20px;
+}
+/* Hero section */
+.hero {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.hero-image {
+    width: 50%; 
+    height: 300px;
+    background-image:url('background.jpg'); 
+    background-size: cover;
+    background-position: center;
+}
+/* Teks banner */
+.teks-banner {
+    background-color: #4A4F3E;
+    color: #F7F4EB;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 40px;
+    font-family: 'Playfair Display', Georgia, serif; 
+    font-style: italic;
+}
+/* judul menu */
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+/* Daftar menu */
+.menu-grid {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+}
+.kartu-menu {
+    background: #FFFFFF; 
+    border: 1px solid #E8E0D5;
+    width: 100%;
+}
+.kartu-menu img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+.isi-kartu {
+    padding: 15px;
+}
+.detail-kartu {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+/* Tombol/button */
+button {
+    background-color: #D49A9A;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #4A4F3E;
+}
+/* catatan */
+.order-box {
+    background-color: #F9F0F0;
+    padding: 30px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.input-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+input {
+    padding: 10px;
+    border: 1px solid #C78B8B;
+    width: 200px;
+}
+/* Efek dari JavaScript */
+.berhasil {
+    background-color: #E5A9A9;
+    color: white;
+    transition: 0.3s;
+}
+.error {
+    color: #C9735D; 
+    font-weight: bold;
+}
+.success {
+    color: #4A4F3E; 
+    font-weight: bold;
+}
+/* Footer */
+footer {
+    background-color: #4A4F3E;
+    color: #F7F4EB;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;}
+.nama-team {
+    color: #D49A9A;
+    font-size: 13px;
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+/* Tampilan di HP (Mobile) */
+@media (max-width: 750px) {
+    .hero {
+        flex-direction: column; }
+    .hero-image {
+        width: 100%;}
+    .kartu-menu {
+        width: 100%; }
+    .order-box {
+        flex-direction: column;
+        gap: 20px;}
+    .section-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;}
+}

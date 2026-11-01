@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalcer Cafe &amp; Eatery</title>
+  <link rel="stylesheet" href="tes.css">
+</head>
+<body>
+  <header class="header">
+    <div>
+      <p class="label">EST. 2026 · Yogyakarta</p>
+      <h1>Kalcer<span>.</span></h1>
+      <p class="subtitle">Cafe &amp; Eatery</p>
+    </div>
+    <div id="infoKeranjang" class="cart-info">🛒 <span id="jumlahItem">0</span> item</div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="label">A daily pause, well made</p>
+        <h2>Good mood<br><em> Start at Kalcer</em></h2>
+        <p>Kopi yang diracik pelan, makanan yang dibuat sepenuh hati, dan ruang untuk bernapas sebentar.</p>
+      </div>
+      <div class="hero-image" aria-label="Interior cafe hangat"></div>
+    </section>
+
+    <div class="teks-banner">Stay Cozy, Stay Kalcer</div>
+    <section id="menu">
+      <div class="section-title">
+        <div><p class="label">Something for every mood</p><h2>Pick your <em>pleasure.</em></h2></div>
+        <p>Semua dibuat fresh setiap hari.<br>Pesan sekarang, duduk santai.</p>
+      </div>
+      <div id="wadahMenu" class="menu-grid"></div>
+    </section>
+
+    <section id="bagianCatatan" class="order-box">
+      <div><p class="label">Almost ready</p><h2>Detail <em>pesanan.</em></h2></div>
+      <div class="order-form">
+        <h3>Rincian pesanan</h3>
+        <ul id="daftarRincian" class="daftar-rincian"></ul>
+        <div class="total-bayar"><span>Total bayar</span><strong id="totalBayar">Rp 0</strong></div>
+
+        <label for="inputCatatan">Nomor meja</label>
+        <div class="input-row">
+          <input type="text" id="inputCatatan" placeholder="Contoh: Meja 5">
+          <button id="tombolSimpan">Simpan</button>
+        </div>
+        <p id="hasilCatatan" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 Kalcer Cafe &amp; Eatery <span> <br>Made for slow mornings &amp; good company</span><br>
+          <span class="nama-team">Dreamed, designed & developed by Kalcer Team: Dila, Husein, Ikram, &amp; Rendy</span>
+  </footer>
+  <script>
+    const daftarMenu = [
+      { nama: "Kopi Susu Kalcer", harga: 22000, kategori: "Minuman", gambar: "kopi-susu.avif"},
+      { nama: "Americano", harga: 18000, kategori: "Minuman", gambar: "americano.avif"},
+      { nama: "Matcha Latte", harga: 27000, kategori: "Minuman", gambar: "matcha-latte.jpg"},
+      { nama: "Croissant Butter", harga: 20000, kategori: "Snack", gambar: "croissants-butter.jpg"},
+      { nama: "Nasi Goreng Kalcer", harga: 25000, kategori: "Makanan", gambar: "nasi-goreng-kalcer.jpg"},
+      { nama: "Kentang Goreng", harga: 15000, kategori: "Snack", gambar: "kentang-goreng.avif"}
+    ];
+
+    let totalPesanan = 0;
+    let keranjang = [];
+    const wadahMenu = document.getElementById("wadahMenu");
+    const jumlahItem = document.getElementById("jumlahItem");
+    const infoKeranjang = document.getElementById("infoKeranjang");
+    const daftarRincian = document.getElementById("daftarRincian");
+    const totalBayar = document.getElementById("totalBayar");
+
+    function formatRupiah(angka) {
+      return "Rp " + angka.toLocaleString("id-ID");
+    }
+
+    function hitungTotalBayar() {
+      return keranjang.reduce(function(total, item) {
+        return total + item.harga * item.jumlah;
+      }, 0);
+    }
+
+    function tampilkanMenu() {
+      daftarMenu.forEach(function(menu) {
+        const kartu = document.createElement("article");
+        kartu.className = "kartu-menu";
+        kartu.innerHTML = `
+          <img src="${menu.gambar}" alt="${menu.nama}">
+          <div class="isi-kartu">
+            <small>${menu.kategori}</small>
+            <h3>${menu.nama}</h3>
+            <div class="detail-kartu"><strong>${formatRupiah(menu.harga)}</strong><button class="btn-tambah">Tambah <b>+</b></button></div>
+          </div>`;
+
+        kartu.querySelector(".btn-tambah").addEventListener("click", function() {
+          tambahPesanan(menu);
+        });
+        wadahMenu.appendChild(kartu);
+      });
+    }
+
+    function tambahPesanan(menu) {
+      const itemAda = keranjang.find(function(item) { return item.nama === menu.nama; });
+      if (itemAda) {
+        itemAda.jumlah++;
+      } else {
+        keranjang.push({ nama: menu.nama, harga: menu.harga, jumlah: 1 });
+      }
+      perbaruiKeranjang();
+      infoKeranjang.classList.add("berhasil");
+      setTimeout(function() { infoKeranjang.classList.remove("berhasil"); }, 400);
+      console.log(menu.nama + " ditambahkan ke pesanan.");
+    }
+
+    function ubahJumlah(namaMenu, perubahan) {
+      const item = keranjang.find(function(i) { return i.nama === namaMenu; });
+      item.jumlah += perubahan;
+      if (item.jumlah <= 0) {
+        keranjang = keranjang.filter(function(i) { return i !== item; });
+      }
+      perbaruiKeranjang();
+    }
+
+    function perbaruiKeranjang() {
+      totalPesanan = keranjang.reduce(function(total, item) { return total + item.jumlah; }, 0);
+      jumlahItem.textContent = totalPesanan;
+      tampilkanRincian();
+    }
+
+    function tampilkanRincian() {
+      daftarRincian.innerHTML = "";
+
+      if (keranjang.length === 0) {
+        daftarRincian.innerHTML = '<li class="rincian-kosong">Belum ada menu yang dipilih.</li>';
+      }
+
+      keranjang.forEach(function(item) {
+        const baris = document.createElement("li");
+        baris.className = "baris-rincian";
+        baris.innerHTML = `
+          <div class="info-rincian">
+            <span class="nama-rincian">${item.nama}</span>
+            <small>${formatRupiah(item.harga)} × ${item.jumlah}</small>
+          </div>
+          <div class="aksi-rincian">
+            <button class="btn-kecil btn-kurang" aria-label="Kurangi ${item.nama}">−</button>
+            <span>${item.jumlah}</span>
+            <button class="btn-kecil btn-plus" aria-label="Tambah ${item.nama}">+</button>
+          </div>
+          <strong class="subtotal-rincian">${formatRupiah(item.harga * item.jumlah)}</strong>`;
+
+        baris.querySelector(".btn-kurang").addEventListener("click", function() { ubahJumlah(item.nama, -1); });
+        baris.querySelector(".btn-plus").addEventListener("click", function() { ubahJumlah(item.nama, 1); });
+        daftarRincian.appendChild(baris);
+      });
+
+      totalBayar.textContent = formatRupiah(hitungTotalBayar());
+    }
+
+    const inputCatatan = document.getElementById("inputCatatan");
+    const tombolSimpan = document.getElementById("tombolSimpan");
+    const hasilCatatan = document.getElementById("hasilCatatan");
+
+    tombolSimpan.addEventListener("click", function() {
+      const nomorMeja = inputCatatan.value.trim();
+      if (nomorMeja === "") {
+        hasilCatatan.textContent = "⚠️ Harap isi nomor meja terlebih dahulu.";
+        hasilCatatan.className = "error";} 
+        else if (totalPesanan === 0) {
+        hasilCatatan.textContent = "⚠️ Pilih minimal satu menu terlebih dahulu.";
+        hasilCatatan.className = "error";} 
+        else {
+        hasilCatatan.textContent = `✅ Pesanan untuk meja ${nomorMeja.toUpperCase()} siap diproses (${totalPesanan} item). Total bayar: ${formatRupiah(hitungTotalBayar())}.`;
+        hasilCatatan.className = "success";
+        inputCatatan.value = "";
+        keranjang = [];
+        perbaruiKeranjang(); }
+    });
+    tampilkanMenu();
+    tampilkanRincian();
+  </script>
+</body>
+</html>
